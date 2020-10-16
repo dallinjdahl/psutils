@@ -1,0 +1,118 @@
+%!PS-Adobe-3.0 Resource-ProcSet
+%%Title: hyphenate - Knuth-Liang word division
+%%DocumentNeededResources: procset net.anastigmatix.MetaPre 0.1 9
+%%+ net.anastigmatix.unicodedata CaseFoldingC+S 0.1 5
+%%DocumentSuppliedResources: procset net.anastigmatix.Hyphenate 0.1 9
+%%Version: 0.1 9
+%%Copyright: Chapman Flack - www.anastigmatix.net
+%%Creator: makeHyphenate 1.9 using AFPL Ghostscript 8.51 (2005-04-18)
+%%CreationDate: Thu Sep 28 22:41:29 EDT 2006
+%%LanguageLevel: 2
+%%VMlocation: global
+%%VMusage: 64444 63003
+%%EndComments
+%%BeginProlog
+%%IncludeResource: procset net.anastigmatix.MetaPre 0.1 9
+%%IncludeResource: net.anastigmatix.unicodedata CaseFoldingC+S 0.1 5
+%%BeginResource: procset net.anastigmatix.Hyphenate 0.1 9 64444 63003
+% VMusage measured in Adobe PostScript(r) 3010.108 on a Phaser 750 (PowerPC)
+% Usage after vmreclaim: 5397
+
+% The procset dictionary has one procedure, hyphenator:
+%  hyphenpattern inputcoding *hyphenator* dict
+% The resulting dict contains three variables, lefthyphenmin, righthyphenmin,
+% and uchyph (defaults 2, 3, and true, respectively), and two procs:
+% word *query* nums
+%  nums is a string of length one less than word, indicating the desirability
+%  of dividing between each pair of letters. Odd values indicate acceptable
+%  divisions, even values unacceptable ones. The hyphenpattern and inputcoding
+%  arguments to hyphenator specify the pattern set to use and the encoding
+%  assumed for input words, and can only be changed by running hyphenator again
+%  to generate a new hyphenator dict and procs, but the three variables in
+%  a dictionary once created by hyphenator can be adjusted at any time.
+% { words... } *hyphenation* -
+%  registers explicit hyphenation points for words..., for example,
+%  { as-so-ciate present ta-ble } hyphenation
+%  words can be added at any time; additions obey save and restore (unlike TeX).
+
+% Copyright Chapman Flack, www.anastigmatix.net. May be freely used and
+% distributed without modification provided this notice remains intact.
+% Provided in the hope that it will be useful but AS-IS WITHOUT ANY EXPRESS
+% OR IMPLIED WARRANTY AND WITHOUT REPRESENTATION AS TO ITS SUITABILITY FOR
+% ANY PURPOSE.  
+
+%%BeginData:         70 ASCII Lines
+currentfile /ASCII85Decode filter cvx exec
+05b?C/n&X+F*),/D..O#GV2^%FCA!dAM6l#Ddu^WFHY@@%>YLW23JCk@s)g4ASuU/@:O(eDJ+q
+/+EM+9E+*6lBl7Q:/ou)LAoD]uCi"HS"-QcB!/L]>=HZ@6"-QcB!/L`?=HZ@6"-QcL5DTE)=HY
+Y"! g6ZK5*BB2!KpQJWKKH.9S`e6=HYY""-QcL5*BB2!KpQJWKKH.9S`e6=HYn)!Jgc4"HllM@
+Yb , L=H] Y>!K sF/L  ]ilCL    ]NZ@     L]N[< L]`fB    L]NY>P"^Z7P$!MBM#WWn
+L ]`f BP"  ^Z6 P$! l3 I?I -aFa]D_Ou" aDF)tr3 Ea`d #H\_ ]c5)9?)=H[-L!KsF<!g
+ 4Fa:j \? h I? IQ mFW` =j/    ou)LAo D]uCi#8 *P') q1I?G)'     1G:A'E+EC!AU
+       Ac e3 / @X      !=GQs?9 9N+uL ]NZ@P!4 [%P! 5%   RI=%-"I?ITn30Ia,!Ks
+ F<!Ko X0 9RW  'q P')2 9% [&W- !?cGp FDtYuCM @[!0 .pgR AoD^"ASl.!H\_`d)3P#
+ V"-Qc L@ Zj?1 P' )q1N <"B    RL]N[< P!4[&P, XU.+D    kP-CO;4eP')`bI>A#h=H
+YY,@Yb)KWJCS<5*ATq"c3/@LPPqd!JglA=H[-?L]`fBL]NZ@P"UT2P!+/J"-QcB!KpQ@$BfXs5
+)96&WKK5s!0U0*P!5%OI=%-"P!5%OP!5%OP!5$oI?ITYH]iN75)96&WJCV=)3STYP!4;@H]f&%
+!.C"qI?ITYP#ZpWOuS7%P$!lUH]f&%!.B3M"d2uD!0Uc;OqWfUI=$bSL]NZoP":a#I?ITYP#Zp
+d #Ei2 P30I  a,#Ei     2PWJC k:s, r/#3 /@Qt@=+/[P')psP!5$nI=$bRP$!M@P,X9;M
+#  W8  9P$ !l <P!=AX <IL$1I? G)'1G :A 'F`V,)Bl89EL]`fBOti+ZNW>5*H]gXBP#RT(
+L ]  E T2 L]rr DP!+/ T30Ia,! KsF<!K  oX09ThAq!0TKlP!FGY<.0p/L]W`AP!=a-P$!l
+2 P&ZY 0P      %'4JP #-Lg5*C &J!0TN  oP#QjmAWh1aOq*X20.qBWBOPq&F`V,)H\`T'2
+2 D9r= >* !ZF` (_uEd <g@L]W` A025l "9 P&*SFD-h1L]ilCH]iN7@Yb)K)3STYP!4;W<0
+D BPP" Ch 5L]` fB01B bgDe*R" B9Gn @DIm oB@;]LpFD5B)@<?4./nJp1De*R"B9Lt%FDk
+/sBk)'lAWf]G!Jgu:rfW$i:gnHfATD[0P"UT4OpR9ZH[Cou+>5B#F`hb:A8,qE5CJ\dI?I0b5*
+C&O5*C&O5*C&:Oq*X20.pjTCh.6tB6/E_30Ia630F<*23KqT",Qu?LO52,OuSVLOuRlQ8M<G>F
+ (IgZC h.6tB1"1J05b?C/n&X+F*),/D..O#GV4,VBk)'lARo4k@?T>kOuS7"P$!l2P$iX"G`k
+ %7H]i N7F a]E QI     ?I0 bFa] D_      Ou "aDA oDKr  G%G0*     Df      U2\
+ ",Qu? LG*7 [ Df& KlBk )' lAWf ]B !g6Y=7;  cUR A8, po P"RHGA TTP5 DIIU.BkM
+       9kFD5 tPAS u!rA 8,      po     P1h R $E c5 epDJ <U!A7 ^osL     ]im;
+ L&h:; V2,>3 s,r-     j<G lY^E ,] B!P"Urt L] E TT      H\_ZX !JUU SH\_ce)3
+ R1HG` m2tP" :"a< 0DB`!Jg r9s, r. aL]ilCP !4[  +P $!l3 P!5%O L]ET 2P!4[)P$
+ !l2L^ 0)FP, !AeF a\V"5*C &O30 Ia      ,! Kp9+ P' )q1P ')q1P ')q1      P')
+`aP!FGY</:O;983HHOp$q3L]`fBL]`G6P)#3FI?ITYP"C"V"Gd)ALQZeCFcpm,!I]<S!.C#1I?
+G)'1G:A%AS#CiF_u2HOuS7"M#WWnH[U7(5*Bf>!KpQJ!Jgc>!KoX&!KoX&!KsF/L&h49G`k%7P
+":"W"c*5CL   O4g[P$!l3I?I0b FcnqOFcnqOFa]     D_Ou"aDA7]7\DfTl0@s!'\3/@Tk!
+f -o@= H[ -L! KsF/L]W_WP"U  sUL]ilCOo^_j OuRlQ 8<S+Y5*C&:Oq*X20.q*MCLq*rCh
+. L*De " -W5)9 6&=<K7M/p1 Z ;@<-F3F(JmF5 E\2Q0 /"qiDerruDJ+$R5E\3WL]`eX+>5
+B #AoD K rG%G0 *DfV"*I=$qRI ?ITWL]iM7P)#3      CP')q1H\_ZX!g6ZK@ZjE@!/L]>)
+2 JHPs , r.a+> #<q   +Bt!m+ C-+;/Wr;\99OOU!KmJ >!g4FLP"CgZP')q1OuSV6L]NY>P
+,3 SR P'% m!H luXJ   !.^6/+ C-+;/U`%oP!5 $g03) n,@;p0sA<KTK4tf?B@rGmlDJ,,*
+05b  ?C/n&   X+F*)   ,/D.     .O#GV3QF@rG     mlDJ,-d04o6CD,kIf@rGmhP"UT6M
+#WWn06D,4DJ<U!A7^osHQ[06EbgI5L]NZoP!4[&P$!'o5*@mc!0TKlP!FGY<$3bIHluXV4s4,R
+HnCLGP!5%O+>#<q+BsX(P#ri4+FGbs!KpQJ@!a"J1413KL]iP6P(t/c+FGc(5*AR%5)9;s!Kr3
+\/M_\r>EV/m>p+MHP!>+=OuS6uP$r^#Fa\Um!KpQJ@Yb2D!g8=eP#ZpWP')pOL]APL1413KP!1
+!o+FGc(G`k%L@Yb&JWJCS<5*ATfP#ZpnAWh2!@Zh[d!KmJ>!g8<]?&/QF=H[-V4s2L3/nAO'@r
+HC.ARfhF5DTDt!Kr4o!KpQJ@Zip<WJCP;5*AU&5)96&=H[-L!KmJHV'%EE/otT8A8ZO,F-8b9H
+]iLo/US[FL&q@<V''%dHnBbpP#ZoQD.Rft@VK^jOu"aDCh$sgCO;4/P!5%OP!5%O+>%s`>;&?P
+F(IgZCh.6tB1"1J05b?C/n&X+F*),/D..O#GV4,VBk)'lARo4k@?T=e>p+MHP!5%:P&PglD.Rf
+t@VK^jOu"aDF(o6.HQZOK!KpQ3NWK-BNKS7-P!FGY<0BG.Fcnq:P%>bAH\_ce)3T9.@ZgbJ!g6
+Z6L]`G6P)"CI@Yb)K=FH>rH]gRU5CJ\dP')Q\P!5%&P!5%OI?G)'1G<EeE+ig#@<?F.H\_ig23
+JD%Ch74#BR+Q1ASu@!DMS@W1G<c_B4uC#H#RG.DJa**L]`er06Lc<H#RGV!Ko6p!KpP<7<i<RE
+-,f4DKCt6OuSV6Ou8C?L]`G6P)#2[L]`fBL]`fB+>5B#D..3kAoDKrE,ol,P!=a(OpR9ZH\MS%
+P,3LJD..I#P!1!?HluXL!KpP->p+MHP!5$gP-6N[FE2)5B68E<AWgnWOuSV6P,4<rI?IQVOuSI
+ %P!+/T5^eep+>#?r+BsX'P#sAZDcL[h@rGmhP"Qp'+FGc(5E\!^/Wr8DP')q1+>#?r+BsX&P$
+!lV+C-+;/VjIk=H[-VWJCY4!Kr4dH]gRUFW`7lHnRiqF(IgZCh.6tB1"1J05b?C/n&X+F*),/D
+..O#GV4,VBk)'lARo4k@?T=e>DN<C=<LllHnC-TP$!lTHQXmsHluXV4s4,RHnCLFP"U4d</:X4
+s,r/#4s2F5HluXL"-Qb>7;cURA8,poP"RHGATTP5DIIU.BkM9kFD5tPASu!rA8,poP1hR$Ec5e
+pDJ<U!A7^os+C-+;/Wr>]Fcnq:P#ZpnAWh2!@ZkUO/US[FP!5$gP%'4IP!1!o+FGbs"Gm)@LQV
+\$9ThAu@Yb&JWKO*@)i+NX!Jgf?LEKlLL]NZ@P!4[&P,X6<P'DD<8K]T>HluXL"Hlk0>p+MHL]
+`G6P)#3FI?I/E/US[FL]W`AL]rrDL]rrD+C-+;/Kc]"/o>$4AS,jsA8lR-A!0&!/US[FL]NZ@+
+C-+;/WpL)FaYoVH#RG.DIIX$Df1_%Ou%G-/US[FOrb`O+FGaoF^o*1E+kD-H]8&SH]g?2/MVVq
+>DNB;s,r-jFDk/sBk)'lAWf\/>p+MH+>5B#Ch$sgCQ^o1P#[Z/OuOR9HluXL!KpP->p+MHL]NZ
+3P!:'@HluXV4s4,RHnC-SP"Us&L]`J5P)"B,/MVVq>EU$M>p+MH061c>BQRp5E+ig#D/!mN9->
+f@HluXV*["`2Hn@!fAS-$tH#RG.DJa**P"QoN0.pgRAoD^"ASl.!P!=AAN<"Bi<I5i?0mk*JL]
+W`A+C-+;/VjIk=H['=OuSUaP%'4KP,X6<P!5%&+>#?r+BsX(M#WWn+C-+;/VjLl=HZ<"0/"r#E
++EC!AWf9;!.B3R!I^,2I=$qRI?ITWP!5$gP%'4KOo^`B+>#<q+BsX&P#sA(Dfor.@<-XV9-@L_
+HnC-TP$!M?L]W`AP'Dc`P$!l,P%'4JP,X6=P$!llP')pIL]N;7M#WWnP'MBs/M_\r>DN<C=>*K
+ZFED)7DKCt6+C-+;/VjFj=H['=+>#Bs+BsX&P#sA6@<?U&Ec,r]9-@L_HnCLFP"QoL1OL<LL]N
+Z@025l"9P&*SFD-h1L]NY>P,0:,+FGc(0d&,&/p2,D@<?(D5CImAFcplqP#ZoQ/MVVq>EV153%
+n!?DG4VZB67gM99MIl9jr9?ASu.&BTc"2>p+MH+>5B#F)tr3Ea`d#P!=AAP!5%OI?ITn3/@Tu5
+*BB2!g9OG9HYuA/ot`=FHSk:06),GEd<g3Ou&7BOu[q5D.Rft@VK^jOu%G<BR+Q1AStpuDfU7K
+AU&04Ec`sPATTP5DIIU.BkM9kFD5tP89o/fAStpuAWf51:i^Ja;e:%nA7]@eDImj"F)Q2A@qCg
+G+EM+9E+*6lBl7RH3<~>
+ %$Id: anastigmatix-binwrite.gs,v 1.10 2006/09/29 02:41:17 chap Exp $
+%%EndData
+%%EndResource
+%%EndProlog
+%%EOF

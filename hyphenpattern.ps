@@ -1,0 +1,42 @@
+%!PS-Adobe-3.0 Resource-Category
+%%Title: net.anastigmatix.hyphenpattern - category of Knuth-Liang style patterns
+%%DocumentSuppliedResources: Category net.anastigmatix.hyphenpattern 0.1 6
+%%Version: 0.1 6
+%%Copyright: Chapman Flack - www.anastigmatix.net
+%%Creator: makeHyphenPattern 1.6
+%%CreationDate: Sat Jun 18 23:08:21 EST 2005
+%%LanguageLevel: 2
+%%VMlocation: global
+%%VMusage: 556 424
+%%EndComments
+%%BeginProlog
+%%BeginResource: Category net.anastigmatix.hyphenpattern 0.1 6 556 424
+% VMusage measured in Adobe PostScript(r) 3010.108 on a Phaser 750 (PowerPC)
+% Usage after vmreclaim: 484
+
+% Copyright Chapman Flack, www.anastigmatix.net. May be freely used and
+% distributed without modification provided this notice remains intact.
+% Provided in the hope that it will be useful but AS-IS WITHOUT ANY EXPRESS
+% OR IMPLIED WARRANTY AND WITHOUT REPRESENTATION AS TO ITS SUITABILITY FOR
+% ANY PURPOSE.  
+
+% Each HyphenPattern is a dictionary with these five elements:
+%   Encoding    name                    net.anastigmatix.encoding describing the
+%                                       encoding of the characters in patterns
+%   Boundary    int                     The character value that appears in the
+%                                       patterns to indicate word boundaries.
+%   Unmapped    int                     Character value to which all characters
+%                                       not appearing in any pattern should map.
+%   MinLength   int                     length of the shortest pattern
+%   MaxLength   int                                   longest
+%   Patterns    << name  name >>        4z1z2 =>  << /zz  (\004\001\002)cvn >>
+%   Exceptions  << name string >>       only \000 and \001 on right-hand side.
+
+% the following allocations must be explicitly global: going into Category
+currentglobal true setglobal
+/Generic /Category findresource dup length dict copy
+/net.anastigmatix.hyphenpattern exch /Category defineresource pop
+setglobal
+%%EndResource
+%%EndProlog
+%%EOF

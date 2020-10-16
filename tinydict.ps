@@ -1,0 +1,992 @@
+%!PS
+%%BeginResource:tinydict.ps
+%%Creator: byram@cappella.demon.co.uk
+%%Copyright: (C) 2001 David Byram-Wigfield. All Rights Reserved
+%% Version: Tinydict 7.1 Dividing Dictionary 1.1 
+%% For: Cappella Archive PostScript Markup
+%% Date: 5/10/2004
+%% EndComments
+
+% Lines commented with a % must not linewrap
+% Remove 'pre' at top and tail and copy into a text editor
+% such as NoteTab (PC) or BBEdit (Mac).
+% To keep the Tinydict Typesetter as compact as possible
+% many usage comments have been omitted. 
+% The section numbers refer to the Cappella Archive TinyGuide
+% http://www.cappella.demon.co.uk/tinyfiles/e-guide.pdf/
+
+% Beginners may experiment with a tinier version of the Tinydict 
+% with halfpage and fullpage formats, for US letter or A4 paper.
+% http://www.cappella.demon.co.uk/division/minidict.html/
+
+% The PostScript Markup and Dividing Dictionary patterns are
+% Copyright: (C) 2004 David Byram-Wigfield. All Rights Reserved
+% The PostScript word division procedures are
+% Copyright (C) 2004 Olavi Sakari. All Rights Reserved
+
+% The TiniDivi is still under development. For the latest version
+% see: http://www.cappella.demon.co.uk/division/dividing.html
+% The more comprehensive UK and USA TeX hyphenation patterns 
+% may be inserted in place of the Dividing Dictionary: see: 
+% http://home.ricochet.com/osakari
+
+%% 1. PROLOG
+%% BeginProlog
+% The dimensions throughout are in points
+% Only uncheck 'startjob' to download into Distiller, Ghostscript or
+% PS printer memory. Do *not* uncheck if pasted at the head of a
+% marked-up file: see the TinyGuide for printer instructions.
+%true 0 startjob 
+/copies { userdict begin /#copies exch def end } def 
+
+% A4 defaults: for letter insert 612 PW 792 PH 
+/PW { /pw exch def } def 597 PW 
+/PH { /ph exch def } def 842 PH 
+/setpaper {/languagelevel where { pop languagelevel 1 gt
+	{&lt;&lt; /PageSize [ pw ph ] &gt;&gt; setpagedevice }
+	{ a4 } ifelse } { a4 } ifelse } def
+% Enable printing from a file with pdfmarks
+/pdfmark where { pop } {userdict /pdfmark /cleartomark load put } ifelse
+%%EndProlog
+
+% 2. ISOLATORS
+userdict begin 
+/_Z { /defaults save def } def 
+/ZZ { defaults restore } def 
+% file closing command: 'grestore' closes last page 'gsave'
+/cleanup { clear cleardictstack } def 
+/close { showpage grestore cleanup ZZ } def 
+
+% 3. PAPER SIZES: laser printers 1% deviation max.
+% level 1 substitute `a5', `letter', `legal' for `setpaper'
+% note use of upper case characters
+/A5 { 420 PW 595 PH setpaper } def
+/A4 { 597 PW 842 PH setpaper } def
+/B4 { 729 PW 1032 PH setpaper } def
+/A3 { 842 PW 1190 PH setpaper } def
+/LETTER { 612 PW 792 PH setpaper } def
+/FOLIO { 612 PW 936 PH setpaper } def
+/LEGAL { 612 PW 1008 PH setpaper } def
+/TABLOID { 792 PW 1224 PH setpaper } def
+
+% 4. PAGE DEFAULTS
+% footer, inner, outer margins: no. of cols &amp; first page
+% US users may prefer narrowere 36 IM
+/FM { /fm exch def } def 72 FM
+/IM { /im exch def } def 42 IM 
+/OM { /om exch def } def 60 OM
+/PG { /pg exch def } def 1 PG
+/NC {/nc exch def } def 2 NC
+
+% 5. TEXTBOX DEFAULTS
+% top, bottom, left, right margins: indent, 
+% hyphenation threshold, linespacing
+/TM { /tm exch def } def 470 TM
+/BM { /bm exch def } def 0 BM
+/LM { /lm exch def } def 0 LM
+/RM { /rm exch def } def 300 RM
+/IN { /in exch def } def 0 IN 
+/margins { 470 TM 300 RM 0 BM 0 LM 0 IN } bind def 
+/LG { /lg exch def } def 12 LG
+
+% 6. TEXT STYLES
+/bodytext { 10 rom 12 LG MT } def 
+/quotetext { lg IN INSET 9 rom 11 LG MT } def 
+/QT { quotetext /textbox { margins quotetext } def } bind def 
+/QQ { OUTSET 0 IN bodytext /textbox { margins bodytext } def } bind def 
+/coltext { 10 LG 8 ss } def 
+/chapter (Cappella Archive) def 
+/title (The Tiny Markup ) def 
+/numbering { footers } def
+/textbox { margins bodytext } bind def 
+
+% 7. PRINTING ORIENTATION 
+/swap { pw ph 2 div PW PH } def 
+/headright { 0 ph translate 90 neg rotate swap } bind def 
+/headleft { pw 0 translate 90 rotate swap } bind def
+/changeround { pw ph PW PH 90 rotate 0 ph neg translate } bind def
+/quarto { pw 2 div PW ph 2 div PH } def
+
+% 8. TILING: toggle front/back for printing 4 page folios
+/front { /tiledown { doprint } def /tileup { noprint } def } def
+/back { /tiledown { noprint } def /tileup { doprint } def } def
+/doprint { 0 0 translate } def /noprint { 0 ph translate } def
+
+% tiling for 4 x 4up nested pages: font/back: inner/outer
+/side { pw 2 mul neg 0 translate } def
+/inner {/tiledown { side doprint } def /tileup { side noprint } def } def
+/outer {/tiledown { side noprint } def /tileup { side doprint } def } def
+
+% 9. PAGE FORMATS 
+% *** Paste the chosen format at the head of the text file *** %
+% Open the script with '1upA4' etc. Finish with 'close'
+% Substitute LETTER and TABLOID in place of A4 and A3
+% Insert alternative fonts, style, and sizes in bodytext
+% Substitute `headers', or `number folio' for footers.
+% or leave the 'numbering' braces empty
+
+% Single pages for PDF viewing or re-imposition
+/1upA5 { _Z A5 300 RM setpaper tinydict begin 
+/bodytext { 12 LG 10 rom MT } bind def 
+/textbox { margins bodytext } def 
+ /numbering { footers } def p1 } def
+
+% Single pages for letters or reports
+/1upA4 { _Z A4 480 RM setpaper tinydict begin 
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/a4margins { margins 700 TM 480 RM } def
+/textbox { a4margins bodytext } def 
+/numbering { footers } def p1 } def
+
+ % Single pages for posters: no default numbering
+/1upA3 { _Z A3 740 RM tinydict begin
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/a3margins { margins 1036 TM 740 RM } def
+/textbox { a3margins bodytext } def 
+p1 } def
+
+% Single pages for landscaped illustrations or colour plates
+/landscaped { _Z A5 setpaper changeround 40 FM 72 OM
+pw om 2 mul sub RM tinydict begin 
+/coltext { 12 LG 10 rom MT } bind def 
+/textbox { margins 300 TM pw om 2 mul sub RM bodytext } def 
+p1 1 NC 1st } def 
+
+% 10. TWO PAGE FORMATS 
+% For book folios: toggle 'front/back 2upA4'
+/2upA4 { _Z A4 300 RM setpaper headright tinydict begin
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/textbox { margins bodytext } def 
+/numbering { footers } def 4pages p1 } def
+
+% Printer's Pairs for booklets or multi-page sections
+/2upPP { _Z A4 300 RM setpaper headright tinydict begin
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/textbox { margins bodytext } def 
+/numbering { footers } def 2pages p1 } def
+
+% Facing pages for left -&gt; right on-screen reading
+/2upLR { _Z A4 300 RM setpaper headright tinydict begin 
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/textbox { margins bodytext } def 
+/numbering { footers } def 2screen p1 } def 
+
+% 11. FOUR PAGE FORMATS 
+% Work and turn sideways: toggle 'front/back 4upA4'
+/4upA4 { _Z A4 300 RM 300 RM setpaper 
+ swap 0.71 dup scale tinydict begin
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/textbox { margins bodytext } def 
+/numbering { footers } def 4pages p1 } def
+
+% Work and turn sideways: toggle 'front/back 4upA3'
+/4upA3 { _Z A3 300 RM quarto tinydict begin
+/bodytext { 12 LG 10 rom MT } bind def 
+/chapter (Cappella Archive) def /title (The Tiny Markup ) def 
+/textbox { margins bodytext } def 
+/numbering { footers } def 4pages p1 } def
+
+% 12. EIGHT PAGE FORMATS
+% See http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html/
+
+% 13. SIXTEEN PAGE FORMATS
+% See http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html/
+
+% 14 BROCHURE FORMAT
+% See http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html/
+
+% 15 IMPORTING EPS GRAPHICS  
+% Distiller importing: refer to the TinyGuide
+/import { dup = flush RunFile } def 
+/popDistiller { userdict begin /import { pop } def end } def
+/noDistiller { userdict begin /import { } def end } def 
+/useDistiller { userdict begin /import { dup = flush RunFile } def end } def 
+
+% EPSF BoundingBox width
+/URX { /urx exch def } def 0 URX 
+% EPSF BoundingBox height
+/URY { /ury exch def } def 0 URY 
+% scaling: 100 percent default
+/SC { /sc exch def } def 1 SC 
+/SS { currentscreen 3 -1 roll pop setscreen } bind def
+/newsize { SC sc mul URY sc mul URX } def 
+/middle { rm lm add urx sub 2 div LM } def 
+/room? {ury tm gt {newpage middle } {middle} ifelse } def
+/down { tm ury sub TM } def 
+/position { newsize middle down } def
+/place { position _Z lm tm translate sc dup scale 106 SS import} bind def 
+/text { ZZ 0 LM lm tm moveto L } bind def 
+
+% CLOSE THE USERDICT
+end % this is IMPORTANT! % 
+%%EndSetup
+
+% 16 THE TINYDICT
+%%Begin Dictionary
+/tinydict 160 dict def tinydict begin
+
+% 17 SOME ABBREVIATIONS
+/ld { load def } def /bd { bind def } def
+/gs /gsave ld /gr /grestore ld 
+/mt /moveto ld /tr /translate ld 
+/rt /rmoveto ld /li /lineto ld 
+/rl /rlineto ld /ct /curveto ld
+/ro /rotate ld /rpt /repeat ld 
+/st /stroke ld /np /newpath ld 
+/cp /closepath ld /s /show load def
+/w /widthshow load def
+/gray { gs setgray fill gr } bind def
+/set { gs setlinewidth st gr } bind def 
+
+% 18. PAGE LAYOUT
+/recto { im fm tr textbox numbering } def 
+/verso { pw rm im add sub 2 add fm tr textbox numbering } def
+/midpage { pw rm sub 2 div fm tr textbox numbering } def 
+
+% 19. PAGINATION
+% single pages for proofing or PDF display
+/p1 { gs midpage 
+ /jump { bm tm gt { showpage gr p1 } if } def 
+} def 
+
+% odd pages right handed (recto)
+/2pages { 
+ /p1 { gs pw 0 tr recto /jump { bm tm gt { gr p2 } if } def } def
+ /p2 { gs 0 0 tr verso /jump { bm tm gt { showpage gr p1 } if } def } def
+} def
+
+% odd pages left handed (verso)
+/2screen { 
+ /p1 { gs 0 0 tr verso /jump { bm tm gt { gr p2 } if } def } def
+ /p2 { gs pw 0 tr recto /jump { bm tm gt { showpage gr p1 } if } def } def
+} def
+
+% toggle front/back at head of script
+/4pages { 
+ /p1 { gs tiledown pw 0 tr recto 
+  /jump { bm tm gt { gr p2 } if } def } def
+ /p2 { gs tileup 0 0 tr verso 
+   /jump { bm tm gt { gr p3 } if } def } def
+ /p3 { gs tileup pw 0 tr recto 
+   /jump { bm tm gt { gr p4 } if } def } def
+ /p4 { gs tiledown 0 0 tr spinemark verso 
+   /jump { bm tm gt { showpage gr p1 } if } def } def
+} def
+
+% for 8 and 16 pages see: 
+% http://www.cappella.demon.co.uk/tinyfiles/tinymenu.html/
+
+% 20. COLUMNS: ÔnocolsÕ restores full textwidth: 
+/colheight { ph fm 2 mul sub TM } def
+/colwidth { rm nc div gutter sub RM } def
+/gutter { lg 2 div } def
+/match { tm vs sub tm exch sub TM } def
+/newscolwidth { pw om 3 mul sub RM colwidth } def
+/nocols {tm end gr textbox TM H } def
+
+/1st { gs colwidth coltext MT VS 
+/coldict 10 dict def coldict begin 
+  /jump { bm tm gt { 2 nc gt { nocols newpage 1st } 
+{ 2nd } ifelse } if } def } def
+
+/2nd { gr gs rm lg add 0 tr coltext vs TM MT 
+  /jump { bm tm gt { 3 nc gt { nocols newpage 1st } 
+{ 3rd } ifelse } if } def } def
+
+/3rd { gr gs rm lg add 2 mul 0 tr coltext vs TM MT
+  /jump { bm tm gt { 4 nc gt { nocols newpage 1st } 
+{ 4th } ifelse } if } def } def
+
+/4th { gr gs rm lg add 3 mul 0 tr coltext vs TM MT
+  /jump { bm tm gt { 5 nc gt { nocols newpage 1st } 
+{ 5th } ifelse } if } def } def
+ 
+/5th { gr gs rm lg add 4 mul 0 tr coltext vs TM MT
+/jump { bm tm gt { nocols newpage 1st } if } def } def
+ 
+% 21. HEADER TEXT: substitute your own text
+/chapter (Cappella Archive) def % left hand 
+/title (The Tinydict Typesetter ) def % right hand 
+
+% 22. RUNNING HEADERS: uncheck % for header rule
+/headers { % 2 b 0.2 rule H 
+/numodd { gs 0 T 10 it chapter centre s 10 rom number ( ) glue right s gr L H 2 a } def
+/numeven { gs 0 T 10 rom number s 10 it title centre s gr L H 2 a } def
+ pg 2 mod 1 eq { numodd } { numeven } ifelse
+} bind def
+
+% 23. RUNNING FOOTERS 
+/footers { 
+/numodd { gs 0 T 10 rom number centre footerproc 10 it chapter right footerproc gr } def
+/numeven { gs 0 T 10 it title footerproc 10 rom number centre footerproc gr } def
+pg 2 mod 1 eq { numodd } { numeven } ifelse
+} bind def
+
+% 24 AUTO PAGE NUMBERING
+/footerproc { cpp bm 20 neg add mt s } def
+/number { pg pg 1 add PG 4 string cvs } bind def
+/numbering { } def
+/folio { gs pg pop 9 rom 50 string cvs centre footerproc gr } bind def
+% 'folio' requires a typed identifier *after* a newpage: e.g. 
+% (MCMXCIX) folio: (vi) folio: (6) folio: (Preface) folio: number folio
+
+% 25 HORIZONTAL MOVEMENT
+/centre { dsp 2 div textwidth 2 div exch sub lm add tm mt } bind def 
+/emsize {lg 0.825 mul 0 rt } def
+/em { bm tm gt { jump emsize } { emsize } ifelse } def
+/en { lg 0.42 mul 0 rt } bind def
+/k { 0 rt } bind def
+/right { dsp rm exch sub tm mt } bind def 
+/HS { cpp /hs exch def } def 
+/INSET { lm in add LM rm in sub RM MT } bind def 
+/OUTSET { lm in sub LM rm in add RM MT } bind def
+/LEFT {0 LM MT } bind def
+/MT { 0.1 a } bind def
+/TI { lm gutter add LM rm gutter sub 2 add RM lm tm mt } bind def
+/TO { lm gutter sub LM rm gutter add 2 sub RM lm tm mt } bind def 
+
+% 26 VERTICAL MOVEMENT
+% advance/backwards: e.g. 3 a or 12 b
+/a { tm exch sub TM lm tm mt } bind def 
+/b { tm add TM lm tm mt } bind def 
+% advance/backwards half a line
+/A { lg 2 div a } bind def 
+/B { lg 2 div b } bind def 
+% advance/backwards one line:
+/L { tm lg sub TM lm tm mt } bind def % forwards one line 
+/R { tm lg add TM lm tm mt } bind def % reverse one line 
+/v { 0 exch rt } bind def
+% vertical store
+/VS { tm /vs exch def } def 
+/pivot { currentpoint exch tr rotate } def 
+/newpage { 10 neg TM tm pop jump } bind def
+
+% 27 BOXES
+/boxdrop { lg mul lg 2 div add } bind def 
+/ypos { vs tm sub } def
+/drawbox { 0 ypos rl rm lm sub 0 rl 0 ypos neg rl closepath } def
+/SB { B VS INSET TI L } def 
+/LB { B TO gs cmyk drawbox set gr OUTSET 0 IN L } bind def 
+/CB { 0.2 black LB } def 
+/FB { B VS INSET gs cmyk boxdrop dup a drawbox fill b gr OUTSET 0 IN L } bind def
+/FR { R VS _Z OUTSET 0 TM LB ZZ L } def
+/frame { B urx rm exch sub 2 div IN INSET TI } def 
+ 
+ % 28 CIRCLES: e.g. 20 red 2 LC: 40 blue FC
+/placecircle { currentpoint newpath 3 -1 roll 0 360 arc } def
+/FC {gs cmyk placecircle fill gr } bind def
+/LC { gs cmyk placecircle setlinewidth stroke gr } bind def
+
+% 29 RULES: horizontal: use HR or specify width: eg. 1.5 rule
+/HR { 0.2 rule } def
+/rule { B gs lm tm mt textwidth 3 sub 0 rlineto set gr L } bind def 
+% right/left vertical rules: use VS at start: RR or LR at finish %
+/vline { 0 vs tm sub lg 2 div add neg rl 0.2 set } def 
+/RR { gs rm 1 sub gutter add vs lg add mt vline gr } def 
+/LR { gs lm 1 sub gutter sub vs lg add mt vline gr } def 
+
+% folio binding rising spinemark
+/spinemark { gs pw pg 50 add mt 0 -4 rl 0.3 set gr } bind def
+/myrect { 4 -2 roll mt 1 index 0 rl 0 exch rl neg 0 rl cp 0.5 set } bind def
+/outline { gs [ 6 ] 0 setdash 0 0 mt 0 0 pw ph myrect 0.1 set gr } def
+%/outline { } def % toggle % for on/off
+
+% 30 BACKGROUND
+% substitute your own text and colour
+/watermark { gs 0 0 mt 60 rotate 36 rom 
+(Cappella Archive) 0.8 setgray show gr } def
+/background { gs paleyellow cmyk 0 0 pw ph myrect fill gr } def
+
+% 31 DIGITAL ASSISTANTS
+% where are we? 
+/cpp { currentpoint pop } def 
+% how long is the chosen text? 
+/dsp { dup stringwidth pop } def 
+% define a space
+/space ( ) def 
+% look for spaces 
+/ssp { space search pop } def 
+% adjust space width for widthshow: e.g. 2 asp (text ) w
+/sw { 0 32 } def 
+% text 'measure' usually equals 'rm' value
+/textwidth { rm lm sub } def 
+% count spaces 
+/dsc { dup spacecount } def 
+
+% 32 SPACECOUNTING AND LINEWRAPPING
+/find { search { pop 3 -1 roll 1 add 3 1 roll } { pop exit } ifelse } def
+/spacecount { 0 exch ( ) { find } loop } def
+/rejoin { ssp exch glue } def
+/toofar? { rejoin dsp cpp add rm gt } def
+/pagejump { jump toofar? { L jump s } { s } ifelse } def
+
+% 33 JUSTIFICATION PROCEDURES
+/glue { 2 copy length exch length add string dup 4 2 roll 2 index 
+0 3 index putinterval exch length exch putinterval } bind def
+/TXT { tinydict /txt 3 -1 roll put } def () TXT % word store
+/startpoint { rm currentpoint pop sub } bind def
+/measure { dsp txt stringwidth pop add startpoint 2 add gt } bind def
+/howlong? { rejoin measure } def
+/join { txt exch glue TXT } def
+/jproc { dsp startpoint exch sub exch dup spacecount } bind def
+/popzero { dup 0 eq { pop }{ div } ifelse } def
+/justify { jproc 1 sub 3 2 roll exch popzero sw 4 3 roll w L } bind def
+/nextline { txt justify () TXT join } bind def
+
+% 34 PRINTING CODES: use 'S' for font changes and 'CS' for colour
+/c { centre n } bind def 
+/inf { gs 0 lg 4 div neg rt 0.7 dup scale show gr lg 4 div 0 rt } bind def 
+/n { bm tm gt { jump s L } { s L } ifelse} bind def 
+/p { dup spacecount { toofar? { L s } { s } ifelse } rpt pop L } bind def 
+/r { right n } bind def 
+/sup { gs 0 lg 4 div rt 0.7 dup scale show gr lg 4 div 0 rt } bind def 
+
+/CS { gs cmyk S currentpoint gr mt } def 
+/P {S L } def 
+/S { dsc { pagejump } rpt pop } bind def 
+% tabs e.g. 100 T (text) s 150 T (last one) n 
+/T { lm pop tm mt } def 
+
+/hyphenson {/split { splitword } def } bind def
+/hyphensoff {/split {} def } bind def
+tinydict /splitword known not { hyphenson } { hyphensoff }  ifelse
+
+% hyphenated paragraph
+/HP { dsc { howlong? { split jump txt S () TXT join }{ join } ifelse } repeat txt S L () TXT pop } bind def
+/C { dsc { howlong? { jump txt c () TXT join }{ join } ifelse } rpt txt c () TXT pop } bind def
+/M { dsc { howlong? { split jump nextline } { join } ifelse } rpt txt n () TXT pop } bind def
+/nj { dsc { howlong? { split nextline }{ join } ifelse } rpt txt s L () TXT pop } bind def
+/fj { dsc { howlong? { split nextline }{ join } ifelse } repeat txt justify () TXT pop 0 LM MT } bind def
+/j { dsc { howlong? { split jump nextline }{ join } ifelse } repeat txt s () TXT pop } bind def
+/J { em dsc { howlong? { split jump nextline }{ join } ifelse } repeat txt n () TXT pop } bind def
+
+% 35. DEFINE COLOURS
+% e.g. 'red cmyk'
+/red { 0 1 1 0 } def /palered { 0 0.3 0.3 0 } def
+/blue { 1 1 0 0 } def /paleblue { 0.3 0 0 0 } def
+/green { 1 0 1 0 } def /palegreen { 0.3 0 0.3 0 } def
+/yellow { 0 0 1 0 } def /paleyellow { 0 0 0.1 0 } def
+/black { 0 0 0 1 } def /brown { 0.33 0.87 0.78 0 } def
+/cmyk /setcmykcolor load def 
+
+% 36. DEFAULT TYPEFACES: Adobe PostScript encoding
+% SUBSTITUTE YOUR O/S POSTSCRIPT FONTNAME
+/F { exch selectfont } def 
+% uncheck for level 1
+%/F { findfont exch scalefont setfont } def
+/rom	{ /Times-Roman F } def 
+/bol { /Times-Bold F } def
+/it	{ /Times-Italic F } def 
+/bolit { /Times-BoldItalic F } def
+/ss	{ /Helvetica F } def 
+/sb { /Helvetica-Bold F } def
+/si	{ /Helvetica-Oblique F } def 
+
+% 36. MACINTOSH RE-ENCODING
+/CustomEncoding 256 array def 
+CustomEncoding 0 % empty
+ISOLatin1Encoding 0 255 getinterval putinterval
+
+CustomEncoding % using ascii numbers
+dup 034 /quotedbl put % shift+'
+dup 039 /quotesingle put % unshifted '
+dup 096 /grave put % tilde `
+dup 201 /Eacute put % (\311)
+dup 210 /quotedblleft put % opt+[
+dup 211/quotedblright put % opt/shift+[
+dup 212 /quoteleft put % opt+]
+dup 213 /quoteright put % opt/shift+]
+
+% allocate the dashes and decimal point
+dup 202 /space put % opt space
+dup 208 /endash put % opt+ -
+dup 209 /emdash put % opt/shift+ -
+dup 179 /periodcentered put % opt+ .
+
+% make the fractions available
+dup 221 /onequarter put % opt/shift+4 \335
+dup 219 /onehalf put % opt/shift+2 \333
+dup 220 /threequarters put % opt/shift+3 334
+170 /trademark put % opt+2
+% IMPORTANT: no 'dup' for the last one
+
+% copy everything except the Font Identification
+/customfont { 
+findfont dup length dict begin
+{1 index /FID ne {def} {pop pop} ifelse} forall
+/Encoding CustomEncoding def
+currentdict end definefont pop
+} def
+
+/rom {/_Times-Roman dup /Times-Roman customfont F } bind def 
+/it {/_Times-Italic dup /Times-Italic customfont F } bind def 
+/bol {/_Times-Bold dup /Times-Bold customfont F } bind def 
+/bolit {/_Times-BoldItalic dup /Times-BoldItalic customfont F } bind def 
+/ss {/_Helvetica dup /Helvetica customfont F } bind def 
+/sb {/_Helvetica-Bold dup /Helvetica-Bold customfont F } bind def 
+/si {/_Helvetica-Oblique dup /Helvetica-Oblique customfont F } bind def 
+/cr {/Courier F} def
+
+/palatino {
+/rom {/_Palatino-Roman dup /Palatino-Roman customfont F } bind def
+/it {/_Palatino-Italic dup /Palatino-Italic customfont F } bind def
+/bol {/_Palatino-Bold dup /Palatino-Bold customfont F } bind def
+/bolit {/_Palatino-BoldItalic dup /Palatino-BoldItalic customfont F } bind def
+} def
+
+% 37 RESOURCES
+% conversion from earlier TinyDict versions
+/H { A } def
+%/myrotate { pivot } def
+%/h { sw } def
+% bullet
+/¥ { dup ss lm sub tm mt (¥) s } def 
+
+% start footnotes: e.g. 41 FN
+/FN { bm add BM _Z 8 rom 10 LG lm bm TM tm mt H HR } def
+% end footnotes
+/EN {ZZ bodytext } def
+
+% drop capitals: specify drop distance: character: font
+% e.g. 12.4 LG (W) /Times-Roman dc
+/dc { findfont lm tm moveto [ lg 3.7 mul 0 0 lg 3.7 mul 0 lg 2 mul neg ]
+makefont setfont 2 string cvs s currentpoint pop LM bodytext } def
+
+% underlining: e.g. (underline) ul
+/ul { dup show stringwidth pop neg 
+	gsave 0 currentfont dup
+		/FontInfo get /UnderlineThickness get exch
+		/FontMatrix get dtransform setlinewidth 0 currentfont dup
+		/FontInfo get /UnderlinePosition get exch
+		/FontMatrix get dtransform rmoveto rlineto stroke
+	grestore
+} def
+
+/proof {gsave 0 0 moveto 60 rotate 40 /Times-Roman F 
+(Cappella Archive Proofing Copy) 0.9 setgray show grestore} def 
+
+
+%%BeginResource: Word Division
+%%Title:tinydivi.ps 1.0 beta
+%%For: PostScript Markup
+%%Creator:Cappella Archive
+%%RevisionDate: 11.7.04
+%%End Comments
+% The splitting patterns may be updated from time to time
+% Keep earlier versions for comparison or reversion
+% Comment lines must not linewrap
+
+% Insert in the resources section 37 of the Tinydict
+% The Tinydict 'end' must come *after* this resource
+% The PostScript Markup and Tinydivi Dividing patterns are
+% Copyright: (C) 2004 David Byram-Wigfield. All Rights Reserved
+% The Dividing Dictionary is still under development
+
+% The more comprehensive UK and USA TeX hyphenation patterns 
+% may be inserted in place of the Dividing Patterns: see: 
+% http://home.ricochet.com/osakari
+
+% For the Cappella Archive PostScript Markup see:
+% http://www.cappella.demon.co.uk/tinyfiles/e-guide.pdf/
+
+% For full information on all aspects of word-division see: 
+% http://www.hyphenologist.co.uk
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The PostScript word division procedures are
+% Copyright (C) 2004 Olavi Sakari. All Rights Reserved
+
+% Tries for patterns and exceptions dictionary: all nulls...
+/nullarray [256 {null} repeat] def
+
+% Starting the patterns with a single word delimiter.
+/patterns nullarray 256 array copy dup 8#056 [8#056 null null null] put def
+
+% Starting the exception dictionary with a single word delimiter.
+/exceptions nullarray 256 array copy dup 8#056 [8#056 null null null] put def
+
+% Array for encoding a word suitable for pattern matching.
+% This array is based on the ISOLatin1Encoding vector.
+% All upper case characters will be mapped to lower case.
+% All "hyphen type" characters will be mapped to hyphens.
+% All other punctuation characters will be mapped to commas.
+
+/HyphenEncoding
+[
+  % \000 - \007
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \010 - \017
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \020 - \027
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \030 - \037
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+
+  % \040 - \047
+  % SP        !         "         #         $         %         &amp;         ’
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \050 - \057
+  % (         )         *         +         ,         -         .         /
+  8#054     8#054     8#054     8#055     8#054     8#055     8#054     8#054
+  % \060 - \067
+  % 0         1         2         3         4         5         6         7
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \070 - \077
+  % 8         9         :        ;          &lt;         =         &gt;         ?
+  8#054     8#054     8#054     8#054     8#054     8#055     8#054     8#054
+
+  % \100 - \107
+  % @         A         B         C         D         E         F         G
+  8#054     8#141     8#142     8#143     8#144     8#145     8#146     8#147
+  % \110 - \117
+  % H         I         J         K         L         M         N         O
+  8#150     8#151     8#152     8#153     8#154     8#155     8#156     8#157
+  % \120 - \127
+  % P         Q         R         S         T         U         V         W
+  8#160     8#161     8#162     8#163     8#164     8#165     8#166     8#167
+  % \130 - \137
+  % X         Y         Z         [         \         ]         ^         _
+  8#170     8#171     8#172     8#054     8#054     8#054     8#054     8#054
+
+  % \140 - \147
+  % ‘         a         b         c         d         e         f         g
+  8#054     8#141     8#142     8#143     8#144     8#145     8#146     8#147
+  % \150 - \157
+  % h         i         j         k         l         m         n         o
+  8#150     8#151     8#152     8#153     8#154     8#155     8#156     8#157
+  % \160 - \167
+  % p         q         r         s         t         u         v         w
+  8#160     8#161     8#162     8#163     8#164     8#165     8#166     8#167
+  % \170 - \177
+  % x         y         z         {         |         }         ~
+  8#170     8#171     8#172     8#054     8#054     8#054     8#054     8#054
+
+  % \200 - \207
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \210 - \217
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \220 - \227
+  %dless i  grave     acute     cflex     tilde     macron    breve    dotacc
+  8#220     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \230 - \237
+  %dieresis           ring     cedilla          hungarumlaut  ogonek    caron
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \240 - \247
+  %space  exclamdown  cent     sterling  currency    yen    brokenbar  section
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \250 - \257
+  %dieresis cpyrght  ordfemin  gmotleft  loglnot   hyphen   registered  macron
+  8#054     8#054     8#054     8#054     8#054     8#055     8#054     8#054
+  % \260 - \267
+  %degree plusminus  twosuper threesuper  acute      mu     paragraph periodctr
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+  % \270 - \277
+  %cedilla onesuper ordmascul gmotright onequarter onehalf threeqrtrs   ?down
+  8#054     8#054     8#054     8#054     8#054     8#054     8#054     8#054
+
+  % \300 - \307
+  %Agrave   Aacute Acircumflex  Atilde  Adieresis   Aring       AE     Ccedilla
+  8#340     8#341     8#342     8#343     8#344     8#345     8#346     8#347
+  % \310 - \317
+  %Egrave   Eacute Ecircumflex Edieresis  Igrave    Iacute Icircumflex Idieresis
+  8#350     8#351     8#352     8#353     8#354     8#355     8#356     8#357
+  % \320 - \327
+  % Eth     Ntilde    Ograve    Oacute Ocircumflex  Otilde  Odieresis  multiply
+  8#360     8#361     8#362     8#363     8#364     8#365     8#366     8#367
+  % \330 - \337
+  %Oslash   Ugrave    Uacute Ucircumflex Udieresis  Yacute    Thorn   germandbls
+  8#370     8#371     8#372     8#373     8#374     8#375     8#376     8#337
+
+  % \340 - \347
+  %agrave   aacute acircumflex  atilde  adieresis   aring       ae     ccedilla
+  8#340     8#341     8#342     8#343     8#344     8#345     8#346     8#347
+  % \350 - \357
+  %egrave   eacute ecircumflex edieresis  igrave    iacute icircumflex idieresis
+  8#350     8#351     8#352     8#353     8#354     8#355     8#356     8#357
+  % \360 - \367
+  % eth     ntilde    ograve    oacute ocircumflex  otilde  odieresis   divide
+  8#360     8#361     8#362     8#363     8#364     8#365     8#366     8#367
+  % \370 - \377
+  %oslash   ugrave    uacute ucircumflex udieresis  yacute    thorn    ydieresis
+  8#370     8#371     8#372     8#373     8#374     8#375     8#376     8#377
+]
+def
+
+%%% Trie creation %%%
+% char trie *insertright* char trie'
+/insertright { 2 copy 0 get 2 copy ne { gt { dup 2 get dup null eq
+{ pop 1 index exch 2 [ 4 -1 roll null null null ] dup 4 1 roll put }
+{ exch pop insertright } ifelse }{ dup 2 [ 2 index aload pop ] put
+dup 0 3 index put dup 1 null put dup 3 null put } ifelse }{ pop pop } ifelse
+} bind def
+
+% char trie *insert* trie'
+/insert { dup 0 get 2 index eq { exch pop }{ dup 2 get null eq
+{ 2 [ 4 -1 roll null null null ] dup 4 1 roll put }{ insertright exch pop }
+ifelse } ifelse
+} bind def
+
+% value array *addhyphenpoint* array'
+/addhyphenpoint {[ exch aload pop counttomark 2 add -1 roll ]} bind def
+
+% trie pat *insertpattern* --
+/insertpattern { true -1 3 -1 roll [] 5 -1 roll
+2 index length 1 sub 0 1 3 -1 roll
+{ 3 index exch get dup dup 8#060 ge exch 8#071 le and
+{ 8#060 sub 3 -1 roll addhyphenpoint exch 5 -1 roll pop false 5 1 roll }
+{ 5 index { 0 4 -1 roll addhyphenpoint 3 1 roll }
+{ 6 -1 roll pop true 6 1 roll }
+ifelse exch 4 index dup 0 eq { pop 1 get insert }
+{ 1 eq { 1 [ 4 -1 roll null null null ] dup 4 1 roll put }
+{insert 4 -1 roll pop 0 4 1 roll} ifelse } ifelse
+dup 1 get null eq { 4 -1 roll pop 1 4 1 roll} if } ifelse }
+for 4 index { 0 3 -1 roll addhyphenpoint exch } if
+3 3 -1 roll put pop pop pop
+} bind def
+
+% Install patterns from currentfile.
+% root *installpatterns* --
+/installpatterns { { currentfile token { dup type /stringtype eq
+{ 2 copy dup 0 get dup dup 8#060 ge exch 8#071 le and { pop 1 get }
+{ exch pop } ifelse dup 3 1 roll get dup null eq
+{ pop 2 index exch [ 1 index null null null ] dup 4 1 roll put }
+{ exch pop } ifelse exch insertpattern }{ pop pop exit } ifelse }
+{ (Syntax error while parsing patterns.\nStack:) = pstack flush stop }
+ifelse } loop
+} bind def
+
+%%% Pattern matching %%%
+% word *initialize* [0 0 0 ... ] |word|
+/initialize { dup length 2 add dup dup string dup dup dup
+0 8#056 put 4 -1 roll 1 sub 8#056 put 1 5 -1 roll putinterval
+exch dup 1 add array 0 1 4 -1 roll
+{ 1 index exch 0 put } for exch
+} bind def
+
+% root str *findhyphenation* root hypharr true    A pattern is matched.
+% root str *findhyphenation* root false           No pattern matched.
+/findhyphenation { null 2 index 2 index 0 get get
+3 -1 roll dup length 1 sub 0 1 3 -1 roll
+{ 2 index dup null ne { 0 get } if null eq
+{ 4 -1 roll pop pop null 3 1 roll exit }
+{ 3 copy get exch 0 get ne { { 2 index 2 get dup null eq
+{ 5 -1 roll pop pop pop null 3 1 roll false exit } if
+4 -1 roll pop 3 1 roll 3 copy get exch 0 get eq
+{ true exit } if } loop not {exit} if } if } ifelse
+4 -1 roll pop pop 1 index 1 get exch } for pop pop dup null eq
+{ pop false }{ 3 get dup null eq { pop false }{ true } ifelse } ifelse
+} bind def
+
+% trie maxarr str offset *matchstring* trie maxarr' bool
+/matchstring { 3 -1 roll 4 2 roll findhyphenation
+{ exch 4 1 roll { 1 index 3 index get 1 index lt
+{ 1 index 3 index 3 -1 roll put }{ pop } ifelse
+exch 1 add exch } forall exch pop true }
+{ exch 3 -1 roll pop false } ifelse
+} bind def
+
+% str lw li *createsubstrings* str lw [s0 ... slw-li]
+/createsubstrings { 3 copy [ 5 1 roll sub 0 1 3 -1 roll
+{ 1 index exch 3 index getinterval 3 1 roll } for
+pop pop ]
+} bind def
+
+% Shorten by 4 and clear first, last and all even values.
+% Replacing '4 sub' with '3 sub' will allow  2 char endings
+% such as '-ed'
+% arr *finalize* arr'
+/finalize { dup length dup 8 le { pop pop [ 0 ] }
+{ 4 sub 2 exch getinterval dup dup dup dup dup length 1 sub 2 copy
+1 sub 0 put 0 put 0 0 put 1 get 7 eq { 1 0 put }{ pop } ifelse
+[ exch { dup 2 mod 0 eq { pop 0 } if } forall ] } ifelse
+} bind def
+
+
+% word *hyphenate* [h1 ... hn-1]
+/hyphenate { initialize
+dup 3 1 roll exceptions 3 1 roll 0 matchstring
+{ 3 1 roll pop pop }{ exch pop patterns exch
+3 -1 roll dup length 1 1 2 index 1 sub
+{ createsubstrings 0 6 -2 roll 4 -1 roll
+{ 3 index matchstring pop 3 -1 roll 1 add 3 1 roll } forall
+5 2 roll pop } for pop pop exch pop } ifelse
+finalize
+} bind def
+
+%%% Creating the hyphenation tries %%%
+patterns installpatterns
+
+
+% Starting with patterns for in-word hyphens and alike
+(8-7)   % Allow division after hyphen.
+(8,8)   % No division before and after a punctuation character.
+(8,8-8) % No division if a hyphen is preceded by a punctuation character.
+%(8-8-8) % No division if a hyphen is preceded by a hyphen.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% THE TINYDIVI V.1.0  DIVIDING  PATTERNS %
+% These are very basic patterns to show the principle. Use the
+% TeX  or TiniDivi v.2.0 patterns for more comprehensive
+% word-divsion
+% Odd numbers 1, 3, 5, 7 split from weak to strong
+% Even numbers prohibit 2, 4, 6, 8 from weak to strong
+% The points (.) represent the start or end of a word
+% The division frequency may be regulated by altering HY
+% 3 HY is the default, use 1 HY for narrow columns and
+% 5 HY for book work: 7 HY is the least frequent.
+% If you are tempted to add more short prefixes to the patterns
+% most will need qualifying: e.g. (.pen3) also needs (.pen4t3)
+% to avoid 'pen-tangle' with (penta9gon) as an exception
+
+% There is no such thing as 100% accurate hyphenation as
+% division may be by etymology, pronunciation, or usage.
+
+% PLACE YOUR ADDITIONS HERE - NOT IN THE LOWER SECTIONS
+
+
+% These two char prefixes create few splitting mistakes
+(.ad3)(.de3)(.ex3)(.in3)(.un3)(.re3)
+
+% splitting double consonants: some words must be exceptions
+% such as call-ing, press-ing, etc.
+(4b3b4)(b3bl)(b3br)(4c3c4)(c3cl)(c3cr)(4d3d4)(d3dr)(d3dl)(.ef3f)
+(4f3f4)(f3fl)(f3fr)(4g3g4)(g3gl)(g3gr)(4l3l4)(4m3m4)(4n3n4)
+(4p3p4)(p3pr)(p3pl)(4r3r4)(4s3si)(4t3t)(t3tl)(t3t4i)(t3tr)(4w3w4)(z3zl)
+
+% no splitting after opening chars
+(.ad4u)(.be6a)(be4e3)(.be4i)(.br6)(.ch4)(.ci6)(.co4w)(.co4l5)(.co4m5)(.co4n5)
+(.de4d3)(.de6a)(.de4l)(.de6sk)(.de4v6)(.di4a3)(.dis4h)(.dis4c)(.do4i)(.dr4)(dr4i)
+(.ex3c4)(.ev4)(.fi4)(.fr6)(.go4i)(.in3m6)(.me4)(.mo6)(.of6)(.or4d)(.op6)(.pl6)(.pr6)
+(.re4ad)(.re4al3)(.re4ed)(.re3d4u)(.sh4)(.st4a)(.se4)(.sm4)(.str4)(.sw4)
+(.to4r)(.tr4)(.tra4)(un6ch6)(.un6i)(.un3i6d)(.wh6)(.wr4)
+
+% splitting after three or more chars: may need qualifying
+(.any3)(.com3)(.con3)(dis3)(.mon3)(.mon6u3)(.out3)(.ped3)(.pre3)(.pro3)(.sub3)(.sur3)
+(.tri3)(.uni3)
+
+% splitting before three chars
+(3pap)(3lar)(3mas)(3mat)(3qu4)(3led)
+
+% splitting after prefixes
+(.admin3)(.aero3)(.af4ter3)(.ante3)(.an4ti3)(.ar4ch3)(.arch6i3)(.auto3)(.bio3)(cent3)
+(.circum3)(.counter3)(.elec3)(.free3)(.high3)(.hun3)(.hyper3)(.int4er3)(.in4t4ro3)(.kilo3)
+(.mega3)(.mini3)(.mon4o3)(.neo3)(.over3)(.para3)(.par4ti3)(.philo3)(.pneu3)(.psy1cho3)
+(re4ad3)(.satis3)(.semi3)(.sub3)(.super3)(.tele3)(.trans3)(.ulti3)(.un4der3)(.un3i4n)
+(.vice3)(.vin4t3)(.wild3)(.with3)(.wo4man3)
+
+% splitting before suffixes
+(3able.)(3ably.)(3ab6out)(3a4c3ter)(3age.)(3ally.)(3ance.)(3ant.)(3ar4ies.)(3arily.)
+(3ary.)(3ate)(u5a4t4io)(4a3t4ion.)(3a4t3ing.)(3atory.)(3atories.)(3a4ture.)(3bers.)
+(3b6er)(3b6l6ing.)(b3r4ate.)(3borough.)(3cal.)(3cate.)(3cess.)(3cially.)(3c6ible)
+(3c4ian)(3cide.)(3c6ies.)(3c6ing.)(3ci4ous.)(3c4ise.)(3c4ize.)(3c4ism.)(3crat)(3day.)
+(4d3ed.)(3den.)(3dent.)(3ders.)(d3l6ing.)(3dom.)(3don.)(3duct.)(3ent.)(3edly.)(3end.)
+(3ember.)(3emy.)(3ence.)(3en3ing.)(3ern.)(3ered.)(6e6r3at)(3erty.)(3ery.)(3esce.)
+(3ese.)(3ess.)(3est.)(3ets.)(3f4ied.)(3f4ield.)(3f4ord.)(3f4ul)(3goer.)(3ham.)(3h4en3s4ion.)
+(3ian.)(4i3age.)(3ible.)(3ibly.)(3i4cal)(3icle.)(3cien)(4i3ently.)(3i4fic)(3ily.)(4in3ent.)
+(3ing)(3ise.)(3ism.)(3ies.)(3istic.)(3isa3tion.)(3i6sing.)(3i6zing.)(i3sion)(3ists.)(3ite.)
+(i3m4ate.)(6i3ness.)(3iped.)(3ish.)(3ist.)(3ists.)(3ize.)(3ity.)(3i4t4ies.)(4i3est.)(3ive.)
+(3ized.)(3lance.)(3les.)(3lary.)(3ledge)(3lem.)(3l6ess.)(3lish.)(l4l7ing.)(3logue.)(3logy.)
+(3ologies.)(3ly.)(3maker.)(3mas.)(3member3)(3m4ental)(3more.)(3m4ous.)(3n4alia.)
+(3n6ess.)(3note3)(o6c3en.)(3o4log)(o4n7ess.)(3ous)(3our.)(3pa.)(3pla.)(3phile.)(3politan)
+(3phone.)(3por4t.)(3r4ate.)(4r4a3tion.)(3r4a3t6ing.)(3r4ary.)(3room.)(r3t6ion)(3sand.)
+(3selves.)(3s4ary.)(3scape)(3scop)(3selves.)(3sex.)(3s4ion)(3shire.)(3s4ity.)(3s4ive.)
+(3sophy.)(3smith.)(3son)(3st6ance.)(3t4ance.)(s7t4ant.)(3tain)(t6a5t6ion.)(3tec.)(4t3ed.)
+(3tened.)(3teen)(3t4ered.)(3ters.)(5t6ery.)(3th6ing.)(3tle.)(7t4l6ing.)(3tial)(3tic.)(3t6ies.)
+(3t4ism)(3tive.)(3t4ion)(3ton.)(3tor.)(3tr4ary.)(3ture.)(3t4r6a3)(3t4r4ate.)(3twe4en.)
+(3ture.)(5ual)(3ward,)(3w4ise.)(3ward.)(3ware.)(3way.)(3well.)(3worth.)(3wright.)(3yard)
+(3yer.)(3r4a3t4ion.)(3ion.)
+
+% fore and aft
+%(3abil3)
+(3back3)(3bank3)(bl4ack3)(3book3)(3bridge3)(3burg3)(3counter3)(3down3)
+(3east3)(3ever3)(3ex4act3)(3flam3)(3foot3)(3f4ore3)(3f4orth3)(3for4m3)
+(3free3)(3god3)(3graph3)(3head3)(3hood3)(3house3)(3hold3)(3land3)(3long3)
+(3mac3)(3man3)(3man4u3)(3member3)(3m4ent3)(3nort4h3)(3out3)(3ov4er3)
+(3part3)(3place3)(3poly3)(3port3)(3post3)(3safe7)(3self3)(3ship3)(3side3)
+(3stand3)(3some3)(3sout6h3)(3stone3)(3straig4ht3)(3type3)(3west3)(3white3)
+(3work3)
+
+% chars not split
+
+(ac4h4)(be4a)(be6g3g)(b4r)(b4l)(c4hl)(c4k)(c4l)(c4he)(c4h4r)(.cl4)
+(co4r3)(c4r)(c4t)(d4r)(d4g)(d4ge)(e4a4t)(f4r)(f4l)(g4l)(g4r)(gr4a)
+(g4th3)(gre4a)(g6h6t3)(gh4b)(l4ve)(l4ge)(is6t)(i4v)(nc3t)(n4ge)(n4y)
+(.of4f)(o4i)(o4u)(o4x)(oc4t)(4o4u4g4h)(p4h4r)(.pl4)(4rd.)(p4l)(p4r)
+(p4se)(q4u4)(tr6o3v)(r4se)(r4ge)(r4y)(s4h)(s4u)(t4g)(t4r)(u4i)(v4i)
+(w4r)(t4h4r)(s4he)(t4he)(s4le)(s4pr)(t4ch)(tr4a)(tr4o)(p4hl)(s4pl)
+(s4ph)(un4ch4)
+
+% suffixes not split: modify 'finalize' for 2 char endings like '-ed'
+(6ded.)(6den.)(6sed.)(6ted.)(pre4ach)(ver6n3)(.un4i4on)
+
+%%% end patterns %%%%
+end % End mark for patterns; will not be executed! Do not remove.
+
+% Install exceptions
+exceptions installpatterns
+
+%%% INSERT EXCEPTIONS HERE %%%
+% exceptions are usually names of people or places
+% Note the point at either end: 9 = splitting point
+
+(.let9ter9press.)(.hy9phen9ation.)(.bind9ing.)(.lan9guage.)(.cen9tu)(.fig9ure.)
+(.ink9jet.)(.just9if9ica9tion.)(.post9script.)(.com9mer9cial.)(.through9out.)
+(.some9thing.)(.shake9speare.)(.profes9sional9ism.)(.thou9sand.)(.type9set9ting.)
+(.tiny9dict.)
+
+% words not normally split
+(.anxious)(.berth.)(bishop.)(black)(.called.)(desert)(.eighth.)(.flowers.)(friend)
+(.great)(.heat.)(.opened.)(.paper.)(.prayers.)(.present)(.record)(.round)(.straight.)
+(.surely.)(teenth.)(united.)(.white)(.wood.)(.stable.)
+
+end % End mark for exception; will not be executed! Do not remove.
+
+%%% Hyphenation API %%%
+% The following procedures are specific to Tinydict PostScript Markup
+
+/threshold 3 def
+/HY { /threshold exch def } def 
+
+% word *tolower* offset word'
+/tolower { dup length dup string HyphenEncoding 4 2 roll 0 1 3 -1 roll 1 sub
+{ dup 2 index exch get 3 index exch get 4 index 3 1 roll put } for
+pop pop dup length 1 sub 2 copy get 8#054 ne 2 index 0 get 8#054 ne and
+{ pop 0 exch }{ dup 0 0 1 4 -1 roll { 3 index exch get 8#054 ne {exit} if
+1 add } for 2 copy lt {pop pop pop 0 () }{ exch 2 copy exch 1 add -1 exch
+{ 3 index exch get 8#054 ne { exit } if 1 sub } for
+1 index dup 5 1 roll sub 1 add getinterval } ifelse } ifelse
+} bind def
+
+% word arr *wordcleanup* word arr'
+/wordcleanup { 1 index length 1 sub dup 1 sub 0 1 4 -1 roll
+{ 3 index 1 index get dup 8#054 eq { pop 8 exch true }{ 8#055 eq
+{ 7 exch true }{ false } ifelse } ifelse { dup 2 sub 0 2 copy lt
+{ exch } if pop 3 index 3 -1 roll 2 add 2 copy gt { exch } if pop
+1 exch { 3 index exch 2 copy get 3 index lt { 0 put }{ pop pop } ifelse }
+for pop }{ pop } ifelse } for pop
+} bind def
+
+
+% word *splitword* word'
+/splitword { false exch dup tolower exch 1 add 4 1 roll dup hyphenate
+dup length 1 gt {wordcleanup} if dup length 1 sub -1 0 
+{ dup 2 index exch get threshold ge
+{ 2 index 1 index get exch 6 index add dup 3 1 roll 5 index 0 5 -2 roll
+8#055 eq { getinterval }{ 1 add dup 4 1 roll getinterval 1 index string
+copy dup 3 -1 roll 1 sub 8#055 put } ifelse dsp txt stringwidth pop add
+( ) stringwidth pop add startpoint 2 add gt { pop pop }
+{ ( ) glue join dup 4 index dup length 4 2 roll 3 1 roll sub getinterval
+5 -1 roll pop true 5 2 roll exit } ifelse } { pop } ifelse }
+for pop pop exch { pop } if exch pop
+} bind def
+
+end % The tinydict 'end' must come here
+%%EndResource
